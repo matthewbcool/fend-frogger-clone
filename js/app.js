@@ -32,7 +32,7 @@ class Enemy  {
     const collisionYRules = (this.y === player.y);
     //check for enemy collision with player
     if (collisionXRules && collisionYRules) {
-        player.reset();
+        player.playerDeath();
     }
 
   }
@@ -52,18 +52,25 @@ class Player {
         this.sprite = 'images/char-boy.png';
         this.x = 203;
         this.y = 403;
+        this.hearts = 3;
     }
 
   update(dt){
 
   }
 
-  reset() {
+  playerDeath() {
+      this.hearts -= 1;
+      takeAwayHeart();
+      playerDeathSound.play();
+      if (this.hearts === 1) {
+        //TODO: Game over function.
+          console.log('GAME OVER MAN!')
+      }
       this.x = 203;
       this.y = 403;
-      console.log('player was reset!')
+      console.log('player was reset! ' + 'hearts remaining = ' + this.hearts)
   }
-
 
   render(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -93,10 +100,34 @@ const randomSpeed = {
     mid:(() => Math.floor(Math.random() * 300) + 150)(),
     bot:(() => Math.floor(Math.random() * 300) + 50)(),
 }
+
+//instantiate enemies
 const enemyTop = new Enemy(1, 71, randomSpeed.top);
 const enemyMid = new Enemy(1, 154, randomSpeed.mid);
 const enemyBot = new Enemy(1, 237, randomSpeed.bot);
+
 const allEnemies = [enemyTop, enemyMid, enemyBot]
+
+//deletes a heart from the scoreboard
+
+const takeAwayHeart = () => {
+  let heartOne = document.getElementById('heart-one');
+  let heartTwo = document.getElementById('heart-two');
+  let heartThree = document.getElementById('heart-three');
+  console.log(player.hearts)
+    if (player.hearts === 2) {
+      heartOne.hidden = true;
+  } else if (player.hearts === 1) {
+      heartTwo.hidden = true;
+  } else if (player.hearts === 0) {
+      heartThree.hidden = true;
+  }
+}
+
+//Sounds
+const playerDeathSound = new Howl({
+    src:['http://s3.amazonaws.com/nuclearlaunchdetected/mp3/Hellion_Death03.mp3']
+})
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
