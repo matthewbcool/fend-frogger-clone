@@ -1,36 +1,100 @@
 // Enemies our player must avoid
-var Enemy = function() {
+class Enemy  {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
+    constructor(x, y, speed){
+        this.sprite = 'images/enemy-bug.png';
+        // enemy X pos = [1, 102, 203, 405];
+        // enemy y pos = [71, 154, 237];
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+    }
+
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
+  update(dt){
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-};
+    this.x = this.x + this.speed * dt;
+
+    //length of canvas = 505 Set x to -101 once enemy reaches edge of canvas
+    if (this.x > 505) {
+        this.x = -101;
+    }
+    
+    if (((parseInt(this.x + 66) > player.x && parseInt(this.x) < player.x) ||
+         (parseInt(this.x + 66) > player.x + 60 && parseInt(this.x) < player.x + 66)) &&
+        this.y === player.y) {
+        player.reset();
+    }
+
+  }
 
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
+  render(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+class Player {
+    constructor(sprite){
+        this.sprite = 'images/char-boy.png';
+        this.x = 203;
+        this.y = 403;
+    }
+
+  update(dt){
+
+  }
+
+  reset() {
+      this.x = 203;
+      this.y = 403;
+      console.log('player was reset!')
+  }
 
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+  render(){
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
 
+  // conditionals check to see if player is at boundry and do not adjust value if player is at boundry
+  handleInput(e) {
+      console.log("x = " + this.x, "y = " + this.y)
+      if (e === 'left' && this.x !== 1) {
+      this.x -= 101;
+    } else if (e === 'right' && this.x !== 405) {
+        this.x += 101;
+    } else if (e === 'down' && this.y !== 403) {
+        this.y += 83;
+    } else if (e === 'up' && this.y !== -12) {
+        this.y -= 83;
+    }
+  }
 
+}
+//instatiate player object
+player = new Player;
+
+//get random speeds for enemies
+const randomSpeed = {
+    top:(() => Math.floor(Math.random() * 300) + 20)(),
+    mid:(() => Math.floor(Math.random() * 300) + 150)(),
+    bot:(() => Math.floor(Math.random() * 300) + 50)(),
+}
+const enemyTop = new Enemy(1, 71, randomSpeed.top);
+const enemyMid = new Enemy(1, 154, randomSpeed.mid);
+const enemyBot = new Enemy(1, 237, randomSpeed.bot);
+const allEnemies = [enemyTop, enemyMid, enemyBot]
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
