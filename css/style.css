@@ -17,3 +17,8 @@ body {
     font-weight: bold;
     padding: 0px 0px 0px 20px;
 }
+
+.heart {
+    height: 15%;
+    width: 15%;
+}

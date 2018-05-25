@@ -27,9 +27,11 @@ class Enemy  {
         this.x = -101;
     }
     
-    if (((parseInt(this.x + 66) > player.x && parseInt(this.x) < player.x) ||
-         (parseInt(this.x + 66) > player.x + 60 && parseInt(this.x) < player.x + 66)) &&
-        this.y === player.y) {
+    const collisionXRules = (parseInt(this.x + 66) > player.x && parseInt(this.x) < player.x) ||
+    (parseInt(this.x + 66) > player.x + 60 && parseInt(this.x) < player.x + 66);
+    const collisionYRules = (this.y === player.y);
+    //check for enemy collision with player
+    if (collisionXRules && collisionYRules) {
         player.reset();
     }
 
