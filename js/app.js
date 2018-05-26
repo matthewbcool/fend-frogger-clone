@@ -56,7 +56,11 @@ class Player {
     }
 
   update(dt){
-
+      //checks if player is in the river
+    if (this.y === -12) {
+        pointsScored();
+        riverReached();
+    }
   }
 
   playerDeath() {
@@ -122,6 +126,17 @@ const takeAwayHeart = () => {
   } else if (player.hearts === 0) {
       heartThree.hidden = true;
   }
+}
+
+const pointsScored = () => {
+    let score = document.getElementById('score');
+    let currentScore = parseInt(score.innerText);
+    score.innerText = parseInt(currentScore += 50); 
+}
+
+const riverReached = () => {
+    player.x = 203;
+    player.y = 403;
 }
 
 //Sounds
