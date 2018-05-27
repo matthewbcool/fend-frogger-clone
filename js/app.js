@@ -60,6 +60,7 @@ class Player {
     if (this.y === -12) {
         pointsScored();
         riverReached();
+        victorySound.play();
     }
   }
 
@@ -140,9 +141,34 @@ const riverReached = () => {
 }
 
 //Sounds
+
+const svcYesLinks = [
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes03.mp3', 
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes04.mp3', 
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes05.mp3', 
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes06.mp3', 
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes08.mp3',
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes11.mp3',
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes12.mp3',
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes07.mp3',
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes17.mp3',
+'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes18.mp3'
+];
+
+// returns a random affirmative sound
+const returnRandomLink = () => {
+    let randomIndex = Math.floor(Math.random() * 9);
+    return svcYesLinks[randomIndex];
+}
+const victorySound = new Howl({
+    src:[returnRandomLink()]
+    });       
+
 const playerDeathSound = new Howl({
     src:['http://s3.amazonaws.com/nuclearlaunchdetected/mp3/Hellion_Death03.mp3']
 })
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
