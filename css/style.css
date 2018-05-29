@@ -29,3 +29,33 @@ body {
     height: 25%;
     width: 25%;
 }
+
+.game-over-modal-offset {
+    position: absolute;
+    margin: 3000px auto 0 auto;
+}
+
+.game-over-modal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border: solid 20px darkmagenta;
+    height: 300px;
+    width: 300px;
+    background-color: gainsboro;
+    border-radius: 45px;
+    left:0;
+    right:0;
+    margin: 100px auto 0 auto;
+    padding: 30px;
+    font-size: 35px;
+}
+
+.play-again {
+  font-size: 30px;
+  background-color: beige;
+  margin: 30px;
+}
+.hide {
+    display: hidden;
+}

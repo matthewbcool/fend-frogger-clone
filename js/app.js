@@ -60,7 +60,6 @@ class Player {
     if (this.y === -12) {
         pointsScored();
         riverReached();
-        victorySound.play();
     }
   }
 
@@ -77,7 +76,7 @@ class Player {
       console.log('player was reset! ' + 'hearts remaining = ' + this.hearts)
   }
 
-  render(){
+  render(){ 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 
@@ -129,16 +128,41 @@ const takeAwayHeart = () => {
   }
 }
 
+// adds 50 points to scoreboard.
 const pointsScored = () => {
     let score = document.getElementById('score');
     let currentScore = parseInt(score.innerText);
     score.innerText = parseInt(currentScore += 50); 
 }
 
-const riverReached = () => {
-    player.x = 203;
-    player.y = 403;
+const updateHighScore = () => {
+    const highScoreDiv = document.querySelector('.high-score');
+    let score = document.getElementById('score');
+    currentScore = parseInt(score.innerText);
+    highScoreDiv.innerText = currentScore;
+    console.log('modal updated with currentscore')
 }
+
+const hideModal = () => {
+  const modal = document.getElementById('game-over');  
+  const modalChildren = document.getElementById('game-over').querySelectorAll('*');
+  //loops through nodeList to hide children
+    for (let i=0; i < modalChildren.length; i++) {
+        modalChildren[i].hidden = true;
+    }
+  modal.className = 'hide';
+}
+
+const showModal = () => {
+    const modal = document.getElementById('game-over');  
+    const modalChildren = document.getElementById('game-over').querySelectorAll('*');
+    //loops through nodeList to show children
+      for (let i=0; i < modalChildren.length; i++) {
+          modalChildren[i].hidden = false;
+      }
+    modal.className = 'game-over-modal';
+}
+
 
 //Sounds
 
@@ -155,23 +179,27 @@ const svcYesLinks = [
 'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes18.mp3'
 ];
 
-// returns a random affirmative sound
+// returns a random affirmative sound.
 const returnRandomLink = () => {
     let randomIndex = Math.floor(Math.random() * 9);
     return svcYesLinks[randomIndex];
-}
-const victorySound = new Howl({
-    src:[returnRandomLink()]
-    });       
+}   
 
 const playerDeathSound = new Howl({
     src:['http://s3.amazonaws.com/nuclearlaunchdetected/mp3/Hellion_Death03.mp3']
 })
 
+const victorySound = new Howl({
+    src:[returnRandomLink()]
+    });
 
+const riverReached = () => {
+    player.x = 203;
+    player.y = 403;
+    victorySound.play();
+}
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to the Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
