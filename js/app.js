@@ -53,6 +53,7 @@ class Player {
         this.x = 203;
         this.y = 403;
         this.hearts = 3;
+        this.controllable = true;
     }
 
   update(dt){
@@ -67,29 +68,35 @@ class Player {
       this.hearts -= 1;
       takeAwayHeart();
       playerDeathSound.play();
-      if (this.hearts === 1) {
-        //TODO: Game over function.
-          console.log('GAME OVER MAN!')
-      }
+      if (this.hearts === 0) {  
+        this.controllable = false;
+        resetHearts();
+        showModal();
+      } else {
       this.x = 203;
       this.y = 403;
-      console.log('player was reset! ' + 'hearts remaining = ' + this.hearts)
+      console.log('player was reset!' + this.hearts + player.controllable)
+      }
   }
 
   render(){ 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 
-  // conditionals check to see if player is at boundry and do not adjust value if player is at boundry
+  // conditionals check to see if player is at boundry and do not adjust value if player is at boundry. Also checks for controllable boolean.
   handleInput(e) {
-      console.log("x = " + this.x, "y = " + this.y)
-      if (e === 'left' && this.x !== 1) {
+    const moveLeft = (e === 'left' && this.x !== 1 && this.controllable === true);
+    const moveRight = (e === 'right' && this.x !== 405 && this.controllable === true);
+    const moveDown = (e === 'down' && this.y !== 403 && this.controllable === true);
+    const moveUp = (e === 'up' && this.y !== -12 && this.controllable === true);
+
+      if (moveLeft) {
       this.x -= 101;
-    } else if (e === 'right' && this.x !== 405) {
+    } else if (moveRight) {
         this.x += 101;
-    } else if (e === 'down' && this.y !== 403) {
+    } else if (moveDown) {
         this.y += 83;
-    } else if (e === 'up' && this.y !== -12) {
+    } else if (moveUp) {
         this.y -= 83;
     }
   }
@@ -109,24 +116,32 @@ const randomSpeed = {
 const enemyTop = new Enemy(1, 71, randomSpeed.top);
 const enemyMid = new Enemy(1, 154, randomSpeed.mid);
 const enemyBot = new Enemy(1, 237, randomSpeed.bot);
-
 const allEnemies = [enemyTop, enemyMid, enemyBot]
 
-//deletes a heart from the scoreboard
+//hearts 
+let heartOne = document.getElementById('heart-one');
+let heartTwo = document.getElementById('heart-two');
+let heartThree = document.getElementById('heart-three');
 
+// set hidden attributes to default on hearts
+const resetHearts = () => {
+    heartThree.hidden = false;
+    heartTwo.hidden = false;
+    heartOne.hidden = false;
+}
+
+//deletes a heart from the scoreboard
 const takeAwayHeart = () => {
-  let heartOne = document.getElementById('heart-one');
-  let heartTwo = document.getElementById('heart-two');
-  let heartThree = document.getElementById('heart-three');
-  console.log(player.hearts)
     if (player.hearts === 2) {
       heartOne.hidden = true;
-  } else if (player.hearts === 1) {
+    } else if (player.hearts === 1) {
       heartTwo.hidden = true;
-  } else if (player.hearts === 0) {
+    } else if (player.hearts === 0) {
       heartThree.hidden = true;
-  }
-}
+    } 
+}  
+
+
 
 // adds 50 points to scoreboard.
 const pointsScored = () => {
@@ -134,13 +149,12 @@ const pointsScored = () => {
     let currentScore = parseInt(score.innerText);
     score.innerText = parseInt(currentScore += 50); 
 }
-
+// tracks the score and updates the score on scoreboard
 const updateHighScore = () => {
     const highScoreDiv = document.querySelector('.high-score');
     let score = document.getElementById('score');
     currentScore = parseInt(score.innerText);
     highScoreDiv.innerText = currentScore;
-    console.log('modal updated with currentscore')
 }
 
 const hideModal = () => {
@@ -156,6 +170,12 @@ const hideModal = () => {
 const showModal = () => {
     const modal = document.getElementById('game-over');  
     const modalChildren = document.getElementById('game-over').querySelectorAll('*');
+    const highScoreLabel = document.querySelector('.high-score-label');
+    let score = document.getElementById('score');
+    const highScore = document.querySelector('.high-score');
+    highScoreLabel.innerText = 'High Score: ';
+    let currentScore = score.innerText;
+    highScore.innerText = currentScore;
     //loops through nodeList to show children
       for (let i=0; i < modalChildren.length; i++) {
           modalChildren[i].hidden = false;
@@ -164,7 +184,7 @@ const showModal = () => {
 }
 
 
-//Sounds
+//Sounds---  found some starcraft sounds hosted by amazon through a website called nuclearLaunchdetected.com
 
 const svcYesLinks = [
 'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes03.mp3', 
@@ -199,6 +219,7 @@ const riverReached = () => {
     victorySound.play();
 }
 
+
 // This listens for key presses and sends the keys to the Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
@@ -207,6 +228,19 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
+//play again button
+const playAgainButton = document.getElementById('play-again-btn');
+playAgainButton.addEventListener('click', () => playAgain())
+
+const playAgain = () => {
+    let score = document.getElementById('score');
+    player.hearts = 3;
+    player.controllable = true;
+    score.innerText = 0;
+    updateHighScore();
+    hideModal();
+}
