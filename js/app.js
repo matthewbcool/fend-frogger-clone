@@ -1,9 +1,5 @@
 // Enemies our player must avoid
 class Enemy  {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     constructor(x, y, speed){
         this.sprite = 'images/enemy-bug.png';
         // enemy X pos = [1, 102, 203, 405];
@@ -13,22 +9,16 @@ class Enemy  {
         this.speed = speed;
     }
 
-
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
   update(dt){
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     this.x = this.x + this.speed * dt;
-
     //length of canvas = 505 Set x to -101 once enemy reaches edge of canvas
     if (this.x > 505) {
         this.x = -101;
     }
     
-    const collisionXRules = (parseInt(this.x + 66) > player.x && parseInt(this.x) < player.x) ||
-    (parseInt(this.x + 66) > player.x + 60 && parseInt(this.x) < player.x + 66);
+    const collisionXRules = (parseInt(this.x + 66) > player.x && parseInt(this.x) < player.x) || (parseInt(this.x + 66) > player.x + 60 && parseInt(this.x) < player.x + 66);
     const collisionYRules = (this.y === player.y);
     //check for enemy collision with player
     if (collisionXRules && collisionYRules) {
@@ -44,9 +34,6 @@ class Enemy  {
 
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 class Player {
     constructor(sprite){
         this.sprite = 'images/char-boy.png';
@@ -75,7 +62,6 @@ class Player {
       } else {
       this.x = 203;
       this.y = 403;
-      console.log('player was reset!' + this.hearts + player.controllable)
       }
   }
 
@@ -199,7 +185,7 @@ const svcYesLinks = [
 'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes18.mp3'
 ];
 
-// returns a random affirmative sound.
+// returns a random affirmative sound on doc load.
 const returnRandomLink = () => {
     let randomIndex = Math.floor(Math.random() * 9);
     return svcYesLinks[randomIndex];
