@@ -173,16 +173,16 @@ const showModal = () => {
 //Sounds---  found some starcraft sounds hosted by amazon through a website called nuclearLaunchdetected.com
 
 const svcYesLinks = [
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes03.mp3', 
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes04.mp3', 
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes05.mp3', 
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes06.mp3', 
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes08.mp3',
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes11.mp3',
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes12.mp3',
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes07.mp3',
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes17.mp3',
-'http://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes18.mp3'
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes03.mp3', 
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes04.mp3', 
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes05.mp3', 
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes06.mp3', 
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes08.mp3',
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes11.mp3',
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes12.mp3',
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes07.mp3',
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes17.mp3',
+'https://s3.amazonaws.com/nuclearlaunchdetected/mp3/SCV_Yes18.mp3'
 ];
 
 // returns a random affirmative sound on doc load.
@@ -192,7 +192,7 @@ const returnRandomLink = () => {
 }   
 
 const playerDeathSound = new Howl({
-    src:['http://s3.amazonaws.com/nuclearlaunchdetected/mp3/Hellion_Death03.mp3']
+    src:['https://s3.amazonaws.com/nuclearlaunchdetected/mp3/Hellion_Death03.mp3']
 })
 
 const victorySound = new Howl({

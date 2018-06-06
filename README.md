@@ -5,6 +5,7 @@ This is a project for Udacities Front End NanoDegree.
 ## Installation
 
 Clone repo and run index.html locally in browser.
+or play here: https://matthewbcool.github.io/fend-frogger-clone/
 
 ## Dependencies
 
